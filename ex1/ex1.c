@@ -23,23 +23,16 @@ void push(struct stack *curr, struct twoptr *elem) {
     }
 } 
 
-void pop(struct stack *curr) {
+struct twoptr *pop(struct stack *curr) {
 
     if(curr->top == -1) {
         printf("Stack empty");
     } else {
+        struct twoptr *result = curr->elements[curr->top];
         curr->top--;
+        return result;
     }
 }
-
-struct twoptr *top(struct stack *curr) {
-
-    return curr->elements[curr->top];
-
-}
-
-
-
 
 
 struct twoptr *tree_create(struct twoptr *l, int d, struct twoptr *r) {
@@ -82,28 +75,22 @@ void toxml(struct twoptr *p) {
     toXMLString(p, 0);
 }
 
-
-
-
-void traverse(struct twoptr *curr) {
+void traverse(struct twoptr *root) {
 
     struct stack *travStack = malloc(sizeof(struct stack));
-    push(travStack, curr);
-    while(travStack->top != 0) {
-        if(top(travStack)->left != NULL) {
-            push(travStack, top(travStack)->left);
+    travStack->top = -1;
+    struct twoptr *curr = root;
+    while(travStack->top != -1 || curr != NULL) {
+        if(curr != NULL) {
+            push(travStack, curr);
+            curr = curr->left;
         } else {
-            printf("%d\n", top(travStack)->data);
-        if(top(travStack)->right != NULL) {
-            pop(travStack);
-            push(travStack, top(travStack)->right);
-        } else {
-            pop(travStack);
+            curr = pop(travStack);
+            printf("%d\n", curr->data);
+            curr = curr->right;
         }
     }
-    }
 }
-
 
 int main() {
 
@@ -116,7 +103,7 @@ int main() {
     struct twoptr *testxml6 = tree_create(testxml5, 6, testxml7);
     struct twoptr *testxml4 = tree_create(testxml2, 4, testxml6);
 
-    //toxml(testxml4);
+    toxml(testxml4);
 
     traverse(testxml4);
 
