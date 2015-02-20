@@ -1,0 +1,14 @@
+
+int x, *p, *q;
+p = new int;
+cin >> x;
+if (x > 0) q = &x;
+*q = 3;                 <-- deref of uninitialized pointer
+q = p;
+p = new int;            <-- mem leak if x != zero
+*p = 5;
+delete q;               
+q = p;                  
+*q = 1;                 <-- deref of deleted pointer
+if (x == 0) delete q;   
+(*p)++;                 <-- deref of dangling pointer p
