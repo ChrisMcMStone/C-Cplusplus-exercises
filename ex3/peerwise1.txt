@@ -1,0 +1,21 @@
+Virtual Functions
+
+
+
+class Animal {
+
+public:
+    void noise() {
+        cout << "Generic noise!";
+    }
+}
+
+class Cow : public Animal {
+
+public:
+    void noise() {
+        cout << "Moo!";
+
+    }
+}
+

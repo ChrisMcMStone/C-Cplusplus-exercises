@@ -1,0 +1,63 @@
+#include <iostream>
+
+using namespace std;
+
+template<class T>
+class linkedList {
+    public:
+        linkedList(T data, linkedList<T> *prev) {
+            this->data = data;
+            this->prev = prev;
+        }
+        T data;
+        linkedList<T> *prev;
+
+};
+
+template<class T>
+class stackList {
+
+    public:
+        stackList () { top = new linkedList<T>(NULL, NULL); }
+        ~stackList() { 
+            while(top->prev != NULL) {
+                linkedList<T> *t = top->prev;
+                delete(top->data);
+                delete(top);
+                top = t; } }
+        void push(T x) {
+	    linkedList<T> *oldTop = top;
+            top = new linkedList<T>(x, oldTop);
+            }
+        T pop() {
+            linkedList<T> *oldTop = top;
+            top = top->prev;
+            return oldTop->data;
+        }
+        int isEmpty() const { return top == NULL; }
+        void applyToAll (void (*function)(T)){
+            linkedList<T> *ptr = top;
+            while(ptr->data != NULL) {
+                top->data = function(top->data);
+                ptr = top->prev; }
+        }
+    private:
+        linkedList<T> *top;
+};
+
+template<class T>
+void printItem(T item) {
+    cout << item << endl;
+}
+
+int main() { 
+
+    stackList<int> l = new stackList<int>();
+    l.push(1);
+    l.push(2);
+    l.push(3);
+    l.push(4);
+    l.push(5);
+    //l.applyToAll(&printItem);
+}
+

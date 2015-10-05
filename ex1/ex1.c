@@ -62,9 +62,9 @@ void toXMLString(struct twoptr *p, int indent_level) {
     if(p != NULL) {
         indent(indent_level);
         printf("%s\n", "<twoptr>");
-        toXMLString(p->left, indent_level + 1);
-        indent(indent_level+1);
         printf("%d\n", p->data);
+        indent(indent_level+1);
+        toXMLString(p->left, indent_level + 1);
         toXMLString(p->right, indent_level + 1);
         indent(indent_level);
         printf("%s\n", "</twoptr>");
